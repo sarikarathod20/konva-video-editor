@@ -63,6 +63,77 @@ const Video = (props) => {
       videoElement.removeEventListener("load", canvasset);
     };
   }, [videoElement]);
+  React.useEffect(() => {
+    if(props.imgS){
+    const layer = imageRef.current.getLayer();
+      Konva.Image.fromURL(props.imgS, function(image) {
+        // make it draggable
+        image.setAttrs({
+            draggable: true
+        });
+        // append to layer
+        layer.add(image);
+        // update layer
+        layer.draw();
+    })
+  }
+  }, [props.imgS])
+  let txtNode = '';
+  React.useEffect(() => {
+    if(props.txt){
+    const layer = imageRef.current.getLayer();
+    txtNode = new Konva.Text({
+      text:'Sample Text',
+      fontSize: 25,
+      fontFamily: 'Calibri',
+      fill: '#000',
+      width: 250,
+      padding: 25,
+      align: 'center',
+      draggable: true
+  })
+  layer.add(txtNode);
+  layer.draw();
+  txtNode.on('dblclick dbltap', () => {
+    // create textarea over canvas with absolute position
+
+    // first we need to find position for textarea
+    // how to find it?
+
+    // at first lets find position of text node relative to the stage:
+    var textPosition = txtNode.getAbsolutePosition();
+
+    // then lets find position of stage container on the page:
+    // var stageBox = stage.container().getBoundingClientRect();
+
+    // // so position of textarea will be the sum of positions above:
+    // var areaPosition = {
+    //   x: stageBox.left + textPosition.x,
+    //   y: stageBox.top + textPosition.y,
+    // };
+
+    // create textarea and style it
+    var textarea = document.createElement('textarea');
+    document.body.appendChild(textarea);
+
+    textarea.value = txtNode.text();
+    textarea.style.position = 'absolute';
+    textarea.style.top = '30' + 'px';
+    textarea.style.left = '900'+ 'px';
+    textarea.style.width = txtNode.width();
+
+    textarea.focus();
+
+    textarea.addEventListener('keydown', function (e) {
+      // hide on enter
+      if (e.keyCode === 13) {
+        txtNode.text(textarea.value);
+        document.body.removeChild(textarea);
+      }
+    });
+  });
+  }
+  }, [props.txt])
 
   React.useEffect(() => {
     if (props.state == 'pause'){
@@ -78,7 +149,6 @@ const Video = (props) => {
       console.log('videlement',videoElement)
       videoElement.play();
       const layer = imageRef.current.getLayer();
-  
       const anim = new Konva.Animation(() => {}, layer);
       anim.start();
   
@@ -120,6 +190,8 @@ const App = () => {
   const [videoSrc2 , seVideoSrc2] = React.useState("");
   const [vidUrl, setVidUrl] = React.useState(null);
   const [count, setCount] = React.useState(0);
+  const [imgS, setImg] = React.useState('');
+  const [txt, setTxt] = React.useState('');
   // Programatically click the hidden file input element
   // when the Button component is clicked
   const handleClick = event => {
@@ -179,6 +251,12 @@ const App = () => {
   React.useEffect(() => {
 
   }, [count])
+  React.useEffect(() => {
+
+  }, [imgS])
+  React.useEffect(() => {
+
+  }, [txt])
   const play = () => {
     setState('play')
   }
@@ -197,6 +275,12 @@ const App = () => {
     setState('stop')
     setVidUrl(videoSrc2);
   }
+  const addImage = () => {
+    setImg('https://konvajs.org/assets/lion.png')
+  }
+  const addTxt = () => {
+    setTxt('txt')
+  }
   return (
     <div >
       <br />
@@ -210,10 +294,12 @@ const App = () => {
       /> 
  <Button className="btn-style" variant="contained" value={state} onClick={play}>Play</Button>
  <Button className="btn-style" variant="contained" value={state} onClick={pause}>Pause</Button>
+ <Button className="btn-style" variant="contained" value={state} onClick={addImage}>Add Image</Button>
+ <Button className="btn-style" variant="contained" value={state} onClick={addTxt}>Add Text</Button>
       <div className="canvas">
       <Stage width="1000" height="600" align="center">
         <Layer>
-          <Video state={state} src={vidUrl} />
+          <Video txt={txt} imgS={imgS} state={state} src={vidUrl} />
         </Layer>
       </Stage>
       </div>
