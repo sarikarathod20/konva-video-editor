@@ -11,3 +11,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.btn-style{
+  margin: 10px !important;
+  width: 100px !important;
+}
+.canvas-img{
+  background-color: #000 !important;
+}
+.canvas{
+  display: flex;
+  justify-content: center;
+}
+.thumbnail-group{
+  display: flex;
+  justify-content: center;
+}
+.thumbnail-group img{
+  margin: 10px;
+  
+}
