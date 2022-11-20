@@ -2,6 +2,7 @@
   "name": "react-konva-drop-image",
   "description": "Drop Image into Canvas with React",
   "version": "0.0.9",
+  "license": "MIT",
   "keywords": [
     "canvas",
     "react",
