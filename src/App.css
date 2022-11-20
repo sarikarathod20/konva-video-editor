@@ -109,7 +109,7 @@
 }
 .btn-style{
   margin: 10px !important;
-  width: 100px !important;
+  width: 150px !important;
 }
 .canvas-img{
   background-color: #000 !important;
@@ -121,8 +121,13 @@
 .thumbnail-group{
   display: flex;
   justify-content: center;
+  padding: 10px;
 }
 .thumbnail-group img{
   margin: 10px;
+  border: 1px solid;
+  padding: 20px;
+  width: 300px;
+  height: 200px;
   
 }
