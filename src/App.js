@@ -4,7 +4,7 @@ import { Stage, Layer, Image } from 'react-konva';
 import useImage from 'use-image';
 import Konva from 'konva'
 import { Button } from '@mui/material';
-
+import './App.css';
 
 const URLImage = ({ image }) => {
   const [img] = useImage(image.src);
